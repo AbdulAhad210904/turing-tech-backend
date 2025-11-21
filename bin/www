@@ -1,0 +1,63 @@
+#!/usr/bin/env node
+import http from 'node:http';
+import app from '../app.js';
+import debug from 'debug';
+
+const log = debug('turingtest:server');
+
+// Get port from env and store in Express.
+const port = normalizePort(process.env.PORT || '4000');
+app.set('port', port);
+
+// Create HTTP server.
+const server = http.createServer(app);
+
+// Listen on provided port, on all network interfaces.
+server.listen(port);
+server.on('error', onError);
+server.on('listening', onListening);
+
+function normalizePort(val) {
+  const p = parseInt(val, 10);
+  if (Number.isNaN(p)) return val; // named pipe
+  if (p >= 0) return p;            // port number
+  return false;
+}
+
+function onError(error) {
+  if (error.syscall !== 'listen') throw error;
+
+  const bind = typeof port === 'string' ? 'Pipe ' + port : 'Port ' + port;
+
+  switch (error.code) {
+    case 'EACCES':
+      console.error(bind + ' requires elevated privileges');
+      process.exit(1);
+    case 'EADDRINUSE':
+      console.error(bind + ' is already in use');
+      process.exit(1);
+    default:
+      throw error;
+  }
+}
+
+function onListening() {
+  const addr = server.address();
+  const bind = typeof addr === 'string' ? 'pipe ' + addr : 'port ' + addr.port;
+  log('Listening on ' + bind);
+}
+
+
+process.on('SIGINT', shutdown);
+process.on('SIGTERM', shutdown);
+
+function shutdown() {
+  server.close(err => {
+    if (err) {
+      console.error('HTTP server close error:', err);
+      process.exit(1);
+    }
+    // Close other resources here if needed (e.g., mongoose, redis)
+    process.exit(0);
+  });
+}
