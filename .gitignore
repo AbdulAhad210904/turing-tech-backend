@@ -45,7 +45,3 @@ Thumbs.db
 
 # --- IDE/editor ---
 .idea/
-.vscode/*
-!.vscode/launch.jso
-
-.vscode/
