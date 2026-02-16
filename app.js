@@ -8,6 +8,10 @@ import Base from './middlewares/Base.js';
 import { errorHandler } from './utils/helpers.js';
 import { logger } from './config/winstonLogger.js';
 import { connectMongo } from './utils/mongoose.js';
+import { createRequire } from 'module';
+
+const require = createRequire(import.meta.url);
+
 const app = express();
 
 app.use(helmet());

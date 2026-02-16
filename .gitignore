@@ -32,8 +32,6 @@ coverage/
 coverage-final.json
 
 # --- Env files (keep example) ---
-.env
-.env.*
 !.env.example
 
 # --- Swagger (generated) ---
@@ -45,3 +43,5 @@ Thumbs.db
 
 # --- IDE/editor ---
 .idea/
+
+.vscode/
